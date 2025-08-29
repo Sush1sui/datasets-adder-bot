@@ -30,9 +30,16 @@ func DeleteAccountByEmail(s *discordgo.Session, i *discordgo.InteractionCreate) 
 		return
 	}
 
-	err := repository.UserAccountService.DeleteUserAccountByEmail(email)
+	count, err := repository.UserAccountService.DeleteUserAccountByEmail(email)
 	if err != nil {
 		mess := "Error deleting account: " + err.Error()
+		s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+			Content: &mess,
+		})
+		return
+	}
+	if count == 0 {
+		mess := "No account found with email " + email + "."
 		s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
 			Content: &mess,
 		})
