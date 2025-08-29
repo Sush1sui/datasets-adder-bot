@@ -4,16 +4,30 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/Sush1sui/datasets_adder/internal/bot/commands"
 	"github.com/Sush1sui/datasets_adder/internal/config"
 	"github.com/bwmarrin/discordgo"
 )
 
 var slashCommands = []*discordgo.ApplicationCommand{
-	
+	{
+		Name: "delete-acc-by-email",
+		Description: "Delete user account by email",
+		Type: discordgo.ChatApplicationCommand,
+		DefaultMemberPermissions: func() *int64 { p := int64(discordgo.PermissionAdministrator); return &p }(),
+		Options: []*discordgo.ApplicationCommandOption{
+			{
+				Name:        "email",
+				Description: "Email of the account to delete",
+				Type:        discordgo.ApplicationCommandOptionString,
+				Required:    true,
+			},
+		},
+	},
 }
 
 var commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
-	
+	"delete-acc-by-email": commands.DeleteAccountByEmail,
 }
 
 func DeployCommands(s *discordgo.Session) {

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"os"
@@ -10,6 +11,8 @@ import (
 	"github.com/Sush1sui/datasets_adder/internal/bot"
 	"github.com/Sush1sui/datasets_adder/internal/common"
 	"github.com/Sush1sui/datasets_adder/internal/config"
+	"github.com/Sush1sui/datasets_adder/internal/repository"
+	"github.com/Sush1sui/datasets_adder/internal/repository/mongodb"
 	"github.com/Sush1sui/datasets_adder/internal/server"
 )
 
@@ -17,6 +20,17 @@ func main() {
 	err := config.New()
 	if err != nil {
 		fmt.Println("Error initializing configuration:", err)
+	}
+
+	mongoClient := config.MongoConnection()
+	defer mongoClient.Disconnect(context.Background())
+	if err := mongoClient.Ping(context.Background(), nil); err != nil {
+		panic(fmt.Errorf("failed to connect to MongoDB: %w", err))
+	}
+
+	userAccountCollection := mongoClient.Database(config.Global.MongoDBName).Collection(config.Global.MongoDBUserAccountName)
+	repository.UserAccountService = &mongodb.MongoClient{
+		Client: userAccountCollection,
 	}
 
 	addr := fmt.Sprintf(":%s", config.Global.Port)

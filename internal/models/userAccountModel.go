@@ -1,0 +1,40 @@
+package models
+
+import (
+	"time"
+
+	"go.mongodb.org/mongo-driver/v2/bson"
+)
+
+// NutritionalData is a map of nutrient name to value
+type NutritionalData map[string]float64
+
+type DietHistory struct {
+    Date            time.Time         `bson:"date,omitempty" json:"date,omitempty"`
+    NutritionalData []NutritionalData `bson:"nutritionalData,omitempty" json:"nutritionalData,omitempty"`
+}
+
+type UserAccount struct {
+    ID                bson.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
+    GmailID           *string            `bson:"gmailId,omitempty" json:"gmailId,omitempty"`
+    ProfileLink       *string            `bson:"profileLink,omitempty" json:"profileLink,omitempty"`
+    ProfilePublicID   *string            `bson:"profilePublicId,omitempty" json:"profilePublicId,omitempty"`
+    Gender            *string            `bson:"gender,omitempty" json:"gender,omitempty"`
+    BirthDate         *time.Time         `bson:"birthDate,omitempty" json:"birthDate,omitempty"`
+    Height            *float64           `bson:"height,omitempty" json:"height,omitempty"`           // in feet
+    Weight            *float64           `bson:"weight,omitempty" json:"weight,omitempty"`           // in kg
+    WeightGoal        *string            `bson:"weightGoal,omitempty" json:"weightGoal,omitempty"`   // e.g., "lose", "maintain", "gain"
+    TargetWeight      *float64           `bson:"targetWeight,omitempty" json:"targetWeight,omitempty"` // in kg
+    BMI               *float64           `bson:"bmi,omitempty" json:"bmi,omitempty"`
+    Allergens         []string           `bson:"allergens,omitempty" json:"allergens,omitempty"`
+    MedicalConditions []string           `bson:"medicalConditions,omitempty" json:"medicalConditions,omitempty"`
+    DietHistory       []DietHistory      `bson:"dietHistory,omitempty" json:"dietHistory,omitempty"`
+    Name              *string            `bson:"name,omitempty" json:"name,omitempty"`
+    FirstName         *string            `bson:"firstName,omitempty" json:"firstName,omitempty"`
+    LastName          *string            `bson:"lastName,omitempty" json:"lastName,omitempty"`
+    Email             *string            `bson:"email,omitempty" json:"email,omitempty"`
+    Password          *string            `bson:"password,omitempty" json:"password,omitempty"`
+    OTP               *string            `bson:"otp,omitempty" json:"otp,omitempty"`
+    OTPExpires        *time.Time         `bson:"otpExpires,omitempty" json:"otpExpires,omitempty"`
+    IsVerified        bool               `bson:"isVerified" json:"isVerified"`
+}
