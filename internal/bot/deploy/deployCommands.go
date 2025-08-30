@@ -29,11 +29,25 @@ var slashCommands = []*discordgo.ApplicationCommand{
 		Description: "Get all user accounts",
 		Type: discordgo.ChatApplicationCommand,
 	},
+	{
+		Name: "get-user-by-email",
+		Description: "Get user account by email",
+		Type: discordgo.ChatApplicationCommand,
+		Options: []*discordgo.ApplicationCommandOption{
+			{
+				Name:        "email",
+				Description: "Email of the account to get",
+				Type:        discordgo.ApplicationCommandOptionString,
+				Required:    true,
+			},
+		},
+	},
 }
 
 var commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
 	"delete-acc-by-email": commands.DeleteAccountByEmail,
 	"get-all-users": commands.GetAllUsers,
+	"get-user-by-email": commands.GetUserByEmail,
 }
 
 func DeployCommands(s *discordgo.Session) {

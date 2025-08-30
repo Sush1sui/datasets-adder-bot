@@ -31,6 +31,15 @@ func (c *MongoClient) GetAllUserAccounts() ([]models.UserAccount, error) {
 	return userAccounts, nil
 }
 
+func (c *MongoClient) GetUserByEmail(email string) (*models.UserAccount, error) {
+	var userAccount models.UserAccount
+	err := c.Client.FindOne(context.Background(), bson.M{"email": email}).Decode(&userAccount)
+	if err != nil {
+		return nil, err
+	}
+	return &userAccount, nil
+}
+
 func (c *MongoClient) DeleteUserAccountByEmail(email string) (int, error) {
 	result, err := c.Client.DeleteOne(context.Background(), bson.M{"email": email})
 	if err != nil {

@@ -21,7 +21,8 @@ type UserAccount struct {
     ProfilePublicID   *string            `bson:"profilePublicId,omitempty" json:"profilePublicId,omitempty"`
     Gender            *string            `bson:"gender,omitempty" json:"gender,omitempty"`
     BirthDate         *time.Time         `bson:"birthDate,omitempty" json:"birthDate,omitempty"`
-    Height            *float64           `bson:"height,omitempty" json:"height,omitempty"`           // in feet
+    HeightFeet        *float64           `bson:"heightFeet,omitempty" json:"heightFeet,omitempty"`           // in feet
+    HeightInches      *float64           `bson:"heightInches,omitempty" json:"heightInches,omitempty"`       // in inches
     Weight            *float64           `bson:"weight,omitempty" json:"weight,omitempty"`           // in kg
     WeightGoal        *string            `bson:"weightGoal,omitempty" json:"weightGoal,omitempty"`   // e.g., "lose", "maintain", "gain"
     TargetWeight      *float64           `bson:"targetWeight,omitempty" json:"targetWeight,omitempty"` // in kg

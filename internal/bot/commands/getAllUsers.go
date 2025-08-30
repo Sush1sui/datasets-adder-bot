@@ -1,6 +1,9 @@
 package commands
 
 import (
+	"bytes"
+	"encoding/json"
+
 	"github.com/Sush1sui/datasets_adder/internal/repository"
 	"github.com/bwmarrin/discordgo"
 )
@@ -29,19 +32,37 @@ func GetAllUsers(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		return
 	}
 
-	// Send the user accounts as a message
-	var content = "# User Accounts:\n\n"
-	for _, user := range userAccounts {
-		if user.Email != nil {
-			content += *user.Email
-		}
-		content += "\n"
-	}
+	// Marshal to pretty JSON
+    jsonBytes, err := json.MarshalIndent(userAccounts, "", "  ")
+    if err != nil {
+        mess := "Error marshaling user accounts: " + err.Error()
+        s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+            Content: &mess,
+        })
+        return
+    }
 
-	_, _ = s.ChannelMessageSend(i.ChannelID, content)
+    // Create a buffer for the file
+    file := &discordgo.File{
+        Name:   "user_accounts.json",
+        Reader: bytes.NewReader(jsonBytes),
+    }
 
-	mess := "User accounts successfully fetched"
-	s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
-		Content: &mess,
-	})
+    // Send the file as an attachment
+    _, err = s.ChannelMessageSendComplex(i.ChannelID, &discordgo.MessageSend{
+        Content: "Here are all user accounts as JSON:",
+        Files:   []*discordgo.File{file},
+    })
+    if err != nil {
+        mess := "Error sending file: " + err.Error()
+        s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+            Content: &mess,
+        })
+        return
+    }
+
+    mess := "User accounts JSON file uploaded."
+    s.InteractionResponseEdit(i.Interaction, &discordgo.WebhookEdit{
+        Content: &mess,
+    })
 }
