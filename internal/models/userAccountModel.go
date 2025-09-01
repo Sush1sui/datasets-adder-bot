@@ -9,6 +9,15 @@ import (
 // NutritionalData is a map of nutrient name to value
 type NutritionalData map[string]float64
 
+type Meal struct {
+    Name    string  `bson:"name" json:"name"`
+    Calorie float64 `bson:"calorie" json:"calorie"`
+    Breakfast       []Meal            `bson:"breakfast,omitempty" json:"breakfast,omitempty"`
+    Lunch           []Meal            `bson:"lunch,omitempty" json:"lunch,omitempty"`
+    Dinner          []Meal            `bson:"dinner,omitempty" json:"dinner,omitempty"`
+    OtherMealTime   []Meal            `bson:"otherMealTime,omitempty" json:"otherMealTime,omitempty"`
+}
+
 type DietHistory struct {
     Date            time.Time         `bson:"date,omitempty" json:"date,omitempty"`
     NutritionalData []NutritionalData `bson:"nutritionalData,omitempty" json:"nutritionalData,omitempty"`

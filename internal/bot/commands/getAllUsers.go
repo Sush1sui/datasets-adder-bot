@@ -13,7 +13,7 @@ func GetAllUsers(s *discordgo.Session, i *discordgo.InteractionCreate) {
 		return
 	}
 
-		// defer reply
+    // defer reply
 	s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 		Type: discordgo.InteractionResponseDeferredChannelMessageWithSource,
 		Data: &discordgo.InteractionResponseData{
