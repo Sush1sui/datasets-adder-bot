@@ -23,6 +23,11 @@ type DietHistory struct {
     OtherMealTime   []Meal            `bson:"otherMealTime,omitempty" json:"otherMealTime,omitempty"`
 }
 
+type LoggedWeight struct {
+    Value float64 `bson:"value" json:"value"`
+    Label string  `bson:"label" json:"label"`
+}
+
 type UserAccount struct {
     ID                bson.ObjectID `bson:"_id,omitempty" json:"id,omitempty"`
     GmailID           *string            `bson:"gmailId,omitempty" json:"gmailId,omitempty"`
@@ -39,6 +44,7 @@ type UserAccount struct {
     Allergens         []string           `bson:"allergens,omitempty" json:"allergens,omitempty"`
     MedicalConditions []string           `bson:"medicalConditions,omitempty" json:"medicalConditions,omitempty"`
     DietHistory       []DietHistory      `bson:"dietHistory,omitempty" json:"dietHistory,omitempty"`
+    LoggedWeights     []LoggedWeight     `bson:"loggedWeights,omitempty" json:"loggedWeights,omitempty"`
     Name              *string            `bson:"name,omitempty" json:"name,omitempty"`
     FirstName         *string            `bson:"firstName,omitempty" json:"firstName,omitempty"`
     LastName          *string            `bson:"lastName,omitempty" json:"lastName,omitempty"`
