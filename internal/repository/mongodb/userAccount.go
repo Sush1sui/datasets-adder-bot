@@ -53,3 +53,13 @@ func (c *MongoClient) DeleteUserAccountByEmail(email string) (int, error) {
 
 	return int(result.DeletedCount), nil
 }
+
+func (c *MongoClient) DeleteAllUserAccounts() (int, error) {
+	result, err := c.Client.DeleteMany(context.Background(), bson.M{})
+	if err != nil {
+		return 0, err
+	}
+	// log the number of deleted accounts
+	fmt.Println("Deleted", result.DeletedCount, "user accounts")
+	return int(result.DeletedCount), nil
+}
