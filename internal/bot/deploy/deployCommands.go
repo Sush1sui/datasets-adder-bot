@@ -42,12 +42,19 @@ var slashCommands = []*discordgo.ApplicationCommand{
 			},
 		},
 	},
+	{
+		Name: "delete-all-users",
+		Description: "Delete all user accounts",
+		Type: discordgo.ChatApplicationCommand,
+		DefaultMemberPermissions: func() *int64 { p := int64(discordgo.PermissionAdministrator); return &p }(),
+	},
 }
 
 var commandHandlers = map[string]func(s *discordgo.Session, i *discordgo.InteractionCreate){
 	"delete-acc-by-email": commands.DeleteAccountByEmail,
 	"get-all-users": commands.GetAllUsers,
 	"get-user-by-email": commands.GetUserByEmail,
+	"delete-all-users": commands.DeleteAllUsers,
 }
 
 func DeployCommands(s *discordgo.Session) {
