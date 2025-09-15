@@ -26,8 +26,7 @@ type DietHistory struct {
 
 type LoggedWeight struct {
     Value float64 `bson:"value" json:"value"`
-    Label string  `bson:"label" json:"label"` // "Jan" | "Feb" | ...
-    Year  int     `bson:"year" json:"year"`
+    Date  string  `bson:"date" json:"date"` // date stored as "YYYY-MM-DD" string
 }
 
 type DailyRecommendation struct {
